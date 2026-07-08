@@ -2,8 +2,6 @@ const BASE_URL = "https://script.google.com/macros/s/AKfycbzdXdLrZhsfAC7lDbBok7J
 
 // Start Survey
 export async function startSurvey(
-  name: string,
-  phone: string,
   email: string
 ) {
   try {
@@ -15,8 +13,6 @@ export async function startSurvey(
       },
       body: JSON.stringify({
         action: "startSurvey",
-        name,
-        phone,
         email
       })
     });

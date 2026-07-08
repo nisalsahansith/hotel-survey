@@ -10,8 +10,6 @@ export default function SurveyStartPage() {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    name: "",
-    phone: "",
     email: "",
   });
 
@@ -22,20 +20,16 @@ export default function SurveyStartPage() {
   const handleStart = async () => {
 
 
-    if (!form.name.trim()) {
-      toast.warning("Please enter your full name");
-      return;
-    }
-
-    if (!form.phone.trim()) {
-      toast.warning("Please enter your phone number");
-      return;
-    }
-
     if (!form.email.trim()) {
-      toast.warning("Please enter your email address");
+
+      toast.warning(
+        "Please enter your email address"
+      );
+
       return;
+
     }
+
 
 
     try {
@@ -43,78 +37,50 @@ export default function SurveyStartPage() {
 
       setLoading(true);
 
-
-      const res = await startSurvey(
-        form.name,
-        form.phone,
-        form.email
-      );
+const res = await startSurvey(
+  form.email
+);
 
 
-      console.log(
-        "API Response:",
-        res
-      );
+console.log(
+  "API Response:",
+  res
+);
 
 
-      // Next.js API error
-      if (!res.success) {
+if (!res.success) {
+
+  toast.error(
+    res.message || 
+    "Unable to start survey"
+  );
+
+  return;
+
+}
 
 
-        toast.error(
-          res.message || 
-          "Unable to start survey"
-        );
+const surveyData = res.data;
 
 
-        return;
-
-      }
-
-
-
-      // Google Apps Script error
-      if (!res.data.success) {
+sessionStorage.setItem(
+  "survey",
+  JSON.stringify(surveyData)
+);
 
 
-        toast.error(
-          res.data.message ||
-          "Survey initialization failed"
-        );
+toast.success(
+  "Survey started successfully 🎉"
+);
 
 
-        return;
+setTimeout(()=>{
 
-      }
+  router.push(
+    `/survey/${surveyData.participant.id}`
+  );
 
-
-
-      const surveyData = res.data.data;
-
-
-
-      sessionStorage.setItem(
-        "survey",
-        JSON.stringify(surveyData)
-      );
-
-
-
-      toast.success(
-        "Survey started successfully 🎉"
-      );
-
-
-
-      setTimeout(()=>{
-
-
-        router.push(
-          `/survey/${surveyData.participant.id}`
-        );
-
-
-      },1000);
+},1000);
 
 
 
@@ -146,59 +112,66 @@ export default function SurveyStartPage() {
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10">
 
 
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-lg">
 
 
         <h1 className="text-3xl font-bold text-center mb-6">
-          Hotel Survey
+          Hotel Survey Form
         </h1>
 
 
 
-        <input
+        {/* Research Information */}
 
-          type="text"
-
-          placeholder="Full Name"
-
-          className="border rounded-md p-3 w-full mb-4"
-
-          value={form.name}
-
-          onChange={(e)=>
-            setForm({
-              ...form,
-              name:e.target.value
-            })
-          }
-
-        />
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-6">
 
 
-
-        <input
-
-          type="text"
-
-          placeholder="Phone Number"
-
-          className="border rounded-md p-3 w-full mb-4"
-
-          value={form.phone}
-
-          onChange={(e)=>
-            setForm({
-              ...form,
-              phone:e.target.value
-            })
-          }
-
-        />
+          <h2 className="text-lg font-semibold text-blue-800 mb-3">
+            Research Information
+          </h2>
 
 
+          <p className="text-gray-700 leading-relaxed text-sm mb-3">
+
+            <strong>
+              The Influence of Online Review Valence, Timeliness and Volume on Hotel Purchase Intention
+            </strong>
+
+          </p>
+
+
+          <p className="text-gray-700 leading-relaxed text-sm mb-3">
+
+            I'm Kavindu Prabhash, a final-year undergraduate student in the Department of Industrial Management,
+            Faculty of Applied Sciences, Wayamba University of Sri Lanka.
+
+          </p>
+
+
+          <p className="text-gray-700 leading-relaxed text-sm mb-3">
+
+            This questionnaire is part of an academic research study conducted to examine the influence of online
+            review valence, timeliness, and volume on hotel purchase intention.
+
+          </p>
+
+
+          <p className="text-gray-700 leading-relaxed text-sm">
+
+            Your responses are completely anonymous and will be used only for academic research purposes.
+            Please answer all questions honestly and carefully.
+
+          </p>
+
+
+        </div>
+
+
+
+        {/* Email Input */}
 
         <input
 
@@ -206,14 +179,22 @@ export default function SurveyStartPage() {
 
           placeholder="Email Address"
 
-          className="border rounded-md p-3 w-full mb-6"
+          className="
+            border
+            rounded-md
+            p-3
+            w-full
+            mb-6
+            focus:outline-none
+            focus:ring-2
+            focus:ring-blue-500
+          "
 
           value={form.email}
 
-          onChange={(e)=>
+          onChange={(e) =>
             setForm({
-              ...form,
-              email:e.target.value
+              email: e.target.value
             })
           }
 
@@ -242,10 +223,8 @@ export default function SurveyStartPage() {
 
           {
             loading
-            ?
-            "Starting Survey..."
-            :
-            "Start Survey"
+            ? "Starting Survey..."
+            : "Start Survey"
           }
 
 
