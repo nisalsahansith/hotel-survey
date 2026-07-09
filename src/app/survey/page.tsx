@@ -118,8 +118,8 @@ setTimeout(()=>{
       <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-lg">
 
 
-        <h1 className="text-3xl font-bold text-center mb-6">
-          Hotel Survey Form
+        <h1 className="text-2xl font-bold text-center mb-6">
+          The Impact of Online Review Valence, Volume, Timeliness, and Sentiment Intensity on Consumers’ Purchase Intention
         </h1>
 
 

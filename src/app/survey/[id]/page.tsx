@@ -427,9 +427,9 @@ export default function SurveyPage() {
                 </svg>
               ))}
             </div>
-            <p className="text-sm font-medium text-[#5B6472]">
+            {/* <p className="text-sm font-medium text-[#5B6472]">
               Review score: <span className="font-semibold text-[#16233A]">{hotelRating.score}</span>
-            </p>
+            </p> */}
           </div>
 
           <div className="relative rounded-xl bg-[#F7F5F0] px-5 py-5 sm:px-6">
@@ -533,12 +533,12 @@ export default function SurveyPage() {
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#1F6F6B]">
             Hospitality research study
           </p>
-          <h1
+          {/* <h1
             className="text-[28px] font-semibold text-[#16233A] sm:text-3xl"
             style={{ fontFamily: "var(--font-display)" }}
           >
             Hotel Customer Survey
-          </h1>
+          </h1> */}
           {participant && (
             <p className="mt-2 text-sm text-[#8A8578]">
               Signed in as <span className="font-medium text-[#5B6472]">{participant.email}</span>
