@@ -33,7 +33,12 @@ export async function startSurvey(
   }
 }
 
-export async function submitSurvey(userId: number, answers: any[]) {
+export async function submitSurvey(
+  userId: number,
+  answers: any[]
+) {
+
+  const survey = JSON.parse(sessionStorage.getItem("survey") || "{}");
 
   const res = await fetch("/api/survey/submit", {
     method: "POST",
@@ -43,7 +48,8 @@ export async function submitSurvey(userId: number, answers: any[]) {
     body: JSON.stringify({
       action: "submitSurvey",
       userId,
-      answers
+      answers,
+      hotelRating: survey.hotelRating
     })
   });
 
@@ -52,7 +58,6 @@ export async function submitSurvey(userId: number, answers: any[]) {
   console.log("RAW RESPONSE:", text);
 
   return JSON.parse(text);
-
 }
 
 export async function getAdminStats() {
